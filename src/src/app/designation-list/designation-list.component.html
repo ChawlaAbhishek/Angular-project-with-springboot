@@ -1,0 +1,21 @@
+<h2>Address List</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Designation Id</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let designation of designations">
+            <td>{{designation.degId}}</td>
+            <td>{{designation.grade}}</td>
+          
+            <td>
+                 <!-- <button (click)="updateDesignation(designation.degId,designation.employee.empId)" class="btn btn-info">Update Designation</button> -->
+                <button (click)="deleteDesignation(designation.degId)" class="btn btn-danger" style="margin-left: 10px;">Delete</button>
+            </td>
+            
+        </tr>
+    </tbody>
+</table>

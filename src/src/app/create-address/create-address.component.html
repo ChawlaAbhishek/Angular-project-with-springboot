@@ -1,0 +1,35 @@
+<!-- <div class="col-md-6  offset-md-3">
+    <h3>Create Address</h3>
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>Employee Id</label>
+            <input type="text" class="form-control" id="empId" [(ngModel)]="employee.id" name="empId"   />
+    
+        </div>
+        <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-control" id="city" required #cit="ngModel" [(ngModel)]="address.city" name="city"/>
+            <span *ngIf="cit.invalid && cit.touched" style="color: red;"> Please Enter City Name</span>
+
+    
+        </div>
+        <div class="form-group">
+            <label>State</label>
+            <input type="text" class="form-control" id="state" required #st="ngModel" [(ngModel)]="address.state" name="state" />
+            <span *ngIf="st.invalid && st.touched" style="color: red;"> Please Enter the State Name</span>
+
+    
+        </div>
+        <div class="form-group">
+            <label>Country</label>
+            <input type="text" class="form-control" id="country" required #con="ngModel" [(ngModel)]="address.country" name="country" />
+            <span *ngIf="con.invalid && con.touched" style="color: red;"> Please Enter the Country Name</span>
+
+    
+        </div>
+    
+        <button [disabled]="form.invalid" class="btn btn-success" type="submit">Submit</button>
+    
+    </form>
+
+    </div> -->

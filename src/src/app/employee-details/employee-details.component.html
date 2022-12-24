@@ -1,0 +1,26 @@
+<h3>View Employee Details</h3>
+<div>
+    <div>
+        <label><b>First Name : </b></label>{{employee.firstName}}
+    </div>
+    <div>
+        <label><b>Last Name : </b></label>{{employee.lastName}}
+    </div>
+    <div>
+        <label><b>Mobile Number : </b></label>{{employee.mobileNumber}}
+    </div>
+    <div>
+        <label><b>Designation : </b></label>{{employee.designation.grade}}
+    </div>
+    <div *ngFor="let address of addresses" >
+        <label><b>City : </b></label>{{address.city}}
+    
+    
+        <label><b>State : </b></label>{{address.state}}
+    
+    
+        <label><b>Country : </b></label>{{address.country}}
+        </div>
+    
+    
+</div>
