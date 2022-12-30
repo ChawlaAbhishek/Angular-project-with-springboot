@@ -3,6 +3,7 @@ package com.hostbooks.Service;
 import com.hostbooks.Dto.AddressDto;
 import com.hostbooks.Dto.DesignationDto;
 import com.hostbooks.Dto.EmployeeDto;
+import com.hostbooks.Dto.EmployeeResponse;
 import com.hostbooks.entities.Address;
 import com.hostbooks.entities.Designation;
 import com.hostbooks.entities.Employee;
@@ -11,6 +12,10 @@ import com.hostbooks.repository.CustomEmployeeDao;
 import com.hostbooks.repository.EmployeeDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private CustomEmployeeDao customEmployeeDao;
 
+
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
 
@@ -36,7 +42,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             return mp.map(savedEmployee, EmployeeDto.class);
 
-        }else{
+        }
+        else{
             throw new ResourceNotFoundException("Mobile number already exists");
         }
 
@@ -48,24 +55,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee = empDao.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee does not exist with employee id" + " " + empId));
 
+       // boolean flag =customEmployeeDao.findEmployeeByMobile(employee.getMobileNumber());
 
-        employee.setFirstName(employeeDto.getFirstName());
-        employee.setLastName(employeeDto.getLastName());
-        employee.setMobileNumber(employeeDto.getMobileNumber());
-        DesignationDto designationDto = employeeDto.getDesignation();
-        Designation designation = mp.map(designationDto, Designation.class);
-        employee.setDesignation(designation);
-        List<AddressDto> addressDtos = employeeDto.getAddresses();
-        List<Address> addresses = addressDtos.stream().map((addressDto) -> mp.map(addressDto, Address.class)).collect(Collectors.toList());
+        //if(flag==false){
 
-        employee.setAddresses(addresses);
+            employee.setFirstName(employeeDto.getFirstName());
+            employee.setLastName(employeeDto.getLastName());
+            employee.setMobileNumber(employeeDto.getMobileNumber());
+            DesignationDto designationDto = employeeDto.getDesignation();
+            Designation designation = mp.map(designationDto, Designation.class);
+            employee.setDesignation(designation);
+            List<AddressDto> addressDtos = employeeDto.getAddresses();
+            List<Address> addresses = addressDtos.stream().map((addressDto) -> mp.map(addressDto, Address.class)).collect(Collectors.toList());
+//            if(addresses.size()==0){
+//
+//
+//
+//            }
 
-        //  employee.setAddresses(employeeDto.getAddresses());
+            employee.setAddresses(addresses);
 
-        Employee updatedEmployee = empDao.save(employee);
+            //  employee.setAddresses(employeeDto.getAddresses());
 
-        return mp.map(updatedEmployee, EmployeeDto.class);
+            Employee updatedEmployee = empDao.save(employee);
 
+            return mp.map(updatedEmployee, EmployeeDto.class);
+
+//        }else{
+//            throw new ResourceNotFoundException("Mobile number already exists");
+//        }
     }
 
     @Override
@@ -74,16 +92,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return mp.map(employee, EmployeeDto.class);
 
-
     }
 
     @Override
-    public List<EmployeeDto> getAllEmployees() {
+    public EmployeeResponse getAllEmployees(String name,Integer pageNumber, Integer pageSize,String sortBy,String sortDir) {
 
-        List<Employee> employees = empDao.findAll();
+        Sort sort = null;
+        if(sortDir.equalsIgnoreCase("asc")){
+            sort=Sort.by(sortBy).ascending();
+        }else{
+            sort=Sort.by(sortBy).descending();
+        }
+
+        Pageable pageable = PageRequest.of(pageNumber,pageSize, sort);
+        Page<Employee> pageEmployee=null;
+
+        if(name.equalsIgnoreCase("")){
+             pageEmployee = empDao.findAll(pageable);
+
+        }else {
+           pageEmployee= empDao.search(name,pageable);
+        }
+
+        //Page<Employee> pageEmployee = empDao.findAll(pageable);
+
+        List<Employee> employees = pageEmployee.getContent();
 
         List<EmployeeDto> employeeDtos = employees.stream().map((employee) -> mp.map(employee, EmployeeDto.class)).collect(Collectors.toList());
-        return employeeDtos;
+
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+
+        employeeResponse.setContent(employeeDtos);
+        employeeResponse.setPageNumber(pageEmployee.getNumber());
+        employeeResponse.setPageSize(pageEmployee.getSize());
+        employeeResponse.setTotalElements(pageEmployee.getTotalElements());
+        employeeResponse.setTotalPages(pageEmployee.getTotalPages());
+        employeeResponse.setLastPage(pageEmployee.isLast());
+
+        return employeeResponse;
     }
 
     @Override
@@ -92,8 +138,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = empDao.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee does not exist with employee id" + " " + empId));
 
         empDao.delete(employee);
-
-
     }
 
     @Override
@@ -104,8 +148,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> employeeDtos = employees.stream().map((employee) -> mp.map(employee, EmployeeDto.class)).collect(Collectors.toList());
 
         return employeeDtos;
-
-
     }
 
     @Override
@@ -127,8 +169,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> employeeDtos = employees.stream().map((employee) -> mp.map(employee, EmployeeDto.class)).collect(Collectors.toList());
 
         return employeeDtos;
-
-
     }
 
     @Override
@@ -139,7 +179,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> employeeDtos = employees.stream().map((employee) -> mp.map(employee, EmployeeDto.class)).collect(Collectors.toList());
 
         return employeeDtos;
-
-
     }
 }

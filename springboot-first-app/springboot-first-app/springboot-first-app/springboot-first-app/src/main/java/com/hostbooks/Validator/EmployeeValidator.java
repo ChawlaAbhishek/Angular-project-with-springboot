@@ -3,6 +3,8 @@ package com.hostbooks.Validator;
 import com.hostbooks.Controller.EmployeeController;
 import com.hostbooks.Dto.AddressDto;
 import com.hostbooks.Dto.EmployeeDto;
+import com.hostbooks.repository.CustomEmployeeDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +14,11 @@ import java.util.List;
 @ControllerAdvice(assignableTypes = EmployeeController.class)
 public class EmployeeValidator implements Validator {
 
+//    @Autowired
+//    EmployeeService employeeService;
+    @Autowired
+    CustomEmployeeDao customEmployeeDao;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return EmployeeDto.class.isAssignableFrom(clazz);
@@ -20,7 +27,17 @@ public class EmployeeValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
+
+
         EmployeeDto employee = (EmployeeDto) target;
+
+
+//        boolean flag =customEmployeeDao.findEmployeeByMobile(employee.getMobileNumber());
+//
+//
+//        if(flag){
+//            errors.rejectValue("mobileNumber","404","mobile number already exist");
+//        }
 
         if (employee.getFirstName().length() == 0 || employee.getFirstName() == null) {
             // throw new EmployeeException("Enter the Employee firstname");
@@ -61,17 +78,7 @@ public class EmployeeValidator implements Validator {
 
             }
 
-
-
-
-
-
-
         }
-
-
-
-
 
     }
 }

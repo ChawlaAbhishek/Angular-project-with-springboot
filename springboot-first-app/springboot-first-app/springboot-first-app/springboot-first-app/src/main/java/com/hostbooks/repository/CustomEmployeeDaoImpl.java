@@ -1,6 +1,5 @@
 package com.hostbooks.repository;
 
-import com.hostbooks.Dto.EmployeeDto;
 import com.hostbooks.entities.Employee;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -12,12 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
@@ -29,9 +26,7 @@ public class CustomEmployeeDaoImpl implements CustomEmployeeDao{
     @Override
     public List<Employee> findEmployeeByFirstName(String firstName) {
 
-
-
-         CriteriaBuilder cb =em.getCriteriaBuilder();
+        CriteriaBuilder cb =em.getCriteriaBuilder();
 
         CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
 
@@ -79,6 +74,7 @@ public class CustomEmployeeDaoImpl implements CustomEmployeeDao{
 
         Criteria criteria = em.unwrap(Session.class).createCriteria(Employee.class);
 
+
         criteria.addOrder(Order.desc("empId"));
         List<Employee> employees = criteria.list();
 
@@ -112,14 +108,16 @@ public class CustomEmployeeDaoImpl implements CustomEmployeeDao{
         Predicate predicate = cb.equal(employeeRoot.get("mobileNumber"),mobileNumber);
 
         cq.where(predicate);
-        Employee employee= em.createQuery(cq).getSingleResult();
+        List<Employee> employee= em.createQuery(cq).getResultList();
 
-        if(employee==null){
+        if(employee.size()==0){
             return false;
         }else{
             return true;
         }
     }
+
+
 
 
 }

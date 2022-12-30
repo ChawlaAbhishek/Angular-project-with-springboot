@@ -1,8 +1,10 @@
 package com.hostbooks.Controller;
 
 import com.hostbooks.Dto.EmployeeDto;
+import com.hostbooks.Dto.EmployeeResponse;
 import com.hostbooks.Service.EmployeeService;
 import com.hostbooks.Validator.EmployeeValidator;
+import com.hostbooks.exceptions.MyErrorDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 @CrossOrigin("http://localhost:4200/")
 @RestController
@@ -29,9 +32,11 @@ public class EmployeeController {
     }
     @PostMapping("/Employees")
     ResponseEntity<?>createEmployeeHandler(@Valid @RequestBody EmployeeDto employeeDto, Errors errors){
+        //System.out.println("hello");
 
        // new EmployeeValidator().validate(employeeDto,valid);
         if(errors.hasErrors()){
+           // MyErrorDetails er = new MyErrorDetails(LocalDateTime.now(),errors.getFieldError().getDefaultMessage(),false);
             return new ResponseEntity<>(errors.getFieldError().getDefaultMessage(),HttpStatus.OK);
         }
 
@@ -67,10 +72,17 @@ public class EmployeeController {
 
     }
     @GetMapping("/Employees")
-    ResponseEntity<List<EmployeeDto>> getAllEmployeesHandler(){
-        List<EmployeeDto> employeeDtos = empService.getAllEmployees();
+    ResponseEntity<EmployeeResponse> getAllEmployeesHandler(
+            @RequestParam(value="name",defaultValue = "",required = false)String name,
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+            @RequestParam(value="sortBy",defaultValue = "empId",required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir
+            ){
+        //List<EmployeeDto> employeeDtos = empService.getAllEmployees(pageNumber,pageSize);
+        EmployeeResponse employeeResponse =empService.getAllEmployees(name,pageNumber,pageSize,sortBy,sortDir);
 
-        return new ResponseEntity<>(employeeDtos,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(employeeResponse,HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/EmployeesCustom/{firstName}")

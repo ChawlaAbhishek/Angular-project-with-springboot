@@ -1,10 +1,12 @@
 package com.hostbooks.repository;
 
+import com.hostbooks.entities.Address;
 import com.hostbooks.entities.Employee;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface CustomEmployeeDao {
+public interface CustomEmployeeDao{
 
     List<Employee> findEmployeeByFirstName(String firstName);
 
@@ -15,4 +17,5 @@ public interface CustomEmployeeDao {
     List<Employee> filterEmployeeBaseOnIdAndName(Integer empId,String name);
 
     boolean findEmployeeByMobile(String mobileNumber);
-}
+
+    }

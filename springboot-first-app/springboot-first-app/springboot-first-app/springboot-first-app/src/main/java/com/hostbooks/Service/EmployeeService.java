@@ -1,6 +1,7 @@
 package com.hostbooks.Service;
 
 import com.hostbooks.Dto.EmployeeDto;
+import com.hostbooks.Dto.EmployeeResponse;
 import com.hostbooks.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ public interface EmployeeService {
     EmployeeDto updateEmployee(Integer empId,EmployeeDto employeeDto) throws ResourceNotFoundException;
 
     EmployeeDto getEmployeeById(Integer empId) throws ResourceNotFoundException;
-    List<EmployeeDto> getAllEmployees();
+    EmployeeResponse getAllEmployees(String name,Integer pageNumber, Integer pageSize,String sortBy,String sortDir);
 
     void deleteEmployee(Integer empId) throws ResourceNotFoundException;
 
