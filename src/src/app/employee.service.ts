@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { Employee } from './employee';
+import { EmployeeResponse } from './employee-response';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class EmployeeService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getEmployeesList():Observable<Employee[]>{
-    return this.httpClient.get<Employee[]>(`${this.baseURL}`);
+  getEmployeesList():Observable<Employee>{
+    return this.httpClient.get<Employee>(`${this.baseURL}`);
   }
 
   createEmployee(employee:Employee):Observable<Object>{
@@ -32,6 +33,13 @@ export class EmployeeService {
 
   deleteEmployee(id:any):Observable<Object>{
     return this.httpClient.delete(`${this.baseURL}/${id}`);
+  }
+  getEmployeeByPagination(name:any,pageNumber:any,pageSize:any,sortBy:any,sortDir:any):Observable<EmployeeResponse>{
+
+    return this.httpClient.get<EmployeeResponse>(`${this.baseURL}?name=${name}&pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`);
+
+
+
   }
 
 }

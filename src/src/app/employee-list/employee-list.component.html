@@ -1,17 +1,35 @@
 <h2>Employee List</h2>
+<input type="text" #search (keyup)="getValue(search.value)"/>
 <table class="table table-striped">
     <thead>
+    
         <tr>
-            <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Mobile Number</th>
+            <th>Id
+                <button (click)="sortById()" type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-sort"></span>{{buttonId}}
+            </button>
+        </th>
+            <th>First Name
+                <button (click)="sortByFirstName()" type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-sort"></span>{{buttonFN}}
+                </button>
+            </th>
+            <th>Last Name
+                <button (click)="sortByLastName()" type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-sort"></span>{{buttonLN}}
+                </button>
+            </th>
+            <th>Mobile Number
+                <button (click)="sortByMobileNumber()" type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-sort"></span>{{buttonMN}}
+                </button>
+            </th>
             <!-- <th>Designation Id</th> -->
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let employee of employees">
+        <tr *ngFor="let employee of employees | paginate:{itemsPerPage:pageSize,currentPage:pageNumber+1,totalItems:totalRecords}">
             <td>{{employee.empId}}</td>
             <td>{{employee.firstName}}</td>
             <td>{{employee.lastName}}</td>
@@ -30,3 +48,12 @@
         </tr>
     </tbody>
 </table>
+<div class="d-flex justify-content-center">
+    <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      (pageChange)="onTableDataChange($event)"
+       >
+    
+    </pagination-controls>
+  </div>

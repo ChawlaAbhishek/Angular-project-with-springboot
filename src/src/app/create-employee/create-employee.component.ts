@@ -41,7 +41,11 @@ export class CreateEmployeeComponent implements OnInit {
       console.log(data);
       this.goToEmployeeList();
     },error=>
-    alert(error.error.message))
+    alert(error.error.text));
+    //console.log(error.error.text));
+    
+   // this.goToEmployeeList();
+    
   };
 
   goToEmployeeList(){
@@ -66,7 +70,9 @@ export class CreateEmployeeComponent implements OnInit {
 
     
     //console.log(object);
+    
     this.employee.addresses=this.dataArray;
+    
     //console.log(this.employee);
     this.saveEmployee();
 

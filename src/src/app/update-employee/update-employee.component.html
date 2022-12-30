@@ -22,29 +22,33 @@
     
     
         </div>
+        <div class="form-group">
+            <label>Grade</label>
+            <input type="text" class="form-control" id="grade" required #gr="ngModel" [(ngModel)]="designation.grade" name="grade"/>
+            <span *ngIf="gr.invalid && gr.touched" style="color: red;"> Please Enter the Grade</span>
+    
+    
+        </div>
         <div   *ngFor="let obj of addresses; let i=index">
-            <div class="form-group" >
+            <div class="form-g" >
                 <label>city</label>
                 <input type="text" class="form-control" id="city"  [(ngModel)]="obj.city" name="city{{i}}" />
             </div>
-            <div class="form-group">
+            <div class="form-g">
                 <label>state</label>
                 <input type="text" class="form-control" id="state"  [(ngModel)]="obj.state" name="state{{i}}" />
             </div>
-            <div class="form-group">
+            <div class="form-g">
                 <label>country</label>
                 <input type="text" class="form-control" id="country"  [(ngModel)]="obj.country" name="country{{i}}" />
             </div>
-            </div>
-            <!-- <span  (click)="addForm()"  class="btn btn-success">+</span> -->
+            
+                <span (click)="removeForm(i)" class="btn btn-danger">-</span>
+            
+        </div>
+            <span  (click)="addForm()"  class="btn btn-success">+</span>
 
-            <div class="form-group">
-                <label>Grade</label>
-                <input type="text" class="form-control" id="grade" required #gr="ngModel" [(ngModel)]="designation.grade" name="grade"/>
-                <span *ngIf="gr.invalid && gr.touched" style="color: red;"> Please Enter the Grade</span>
-        
-        
-            </div>
+         
     
         <button [disabled]="form.invalid" class="btn btn-success" type="submit">Submit</button>
     

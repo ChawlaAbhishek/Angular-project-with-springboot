@@ -16,7 +16,7 @@ export class UpdateEmployeeComponent implements OnInit {
   employee:Employee=new Employee();
   addresses:Address[]=[];
   designation:Designation=new Designation();
-
+  Address = new Address();
 
   id:any;
 
@@ -45,11 +45,13 @@ export class UpdateEmployeeComponent implements OnInit {
   }
 
   onSubmit(){
+    //console.log(this.employee);
     console.log(this.employee);
     this.employeeService.updateEmployee(this.id,this.employee).subscribe(data=>{
       console.log(data);
       this.goToEmployeeList();
-    })
+    },error=>
+    alert(error.error.message) )
 
   };
 
@@ -59,7 +61,13 @@ export class UpdateEmployeeComponent implements OnInit {
     this.router.navigate(['/employees']);
 }
 
+addForm(){
+   this.Address = new Address();
+     this.addresses.push(this.Address);
+}
+removeForm(index:any){
+  this.addresses.pop();
+  
 
-
-
+}
 }

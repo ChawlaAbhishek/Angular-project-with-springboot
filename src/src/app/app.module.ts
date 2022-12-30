@@ -15,6 +15,7 @@ import { UpdateAddressComponent } from './update-address/update-address.componen
 import { CreateDesignationComponent } from './create-designation/create-designation.component';
 import { DesignationListComponent } from './designation-list/designation-list.component';
 import { UpdateDesignationComponent } from './update-designation/update-designation.component'
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -29,12 +30,13 @@ import { UpdateDesignationComponent } from './update-designation/update-designat
     CreateDesignationComponent,
     DesignationListComponent,
     UpdateDesignationComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
