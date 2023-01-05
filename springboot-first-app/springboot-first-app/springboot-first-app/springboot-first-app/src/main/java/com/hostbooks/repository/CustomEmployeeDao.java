@@ -1,5 +1,6 @@
 package com.hostbooks.repository;
 
+import com.hostbooks.Dto.EmployeeResponse;
 import com.hostbooks.entities.Address;
 import com.hostbooks.entities.Employee;
 import org.springframework.data.domain.Pageable;
@@ -17,5 +18,11 @@ public interface CustomEmployeeDao{
     List<Employee> filterEmployeeBaseOnIdAndName(Integer empId,String name);
 
     boolean findEmployeeByMobile(String mobileNumber);
+
+    List<String> fingEmployeeByNameThroughHql();
+
+    List<Employee> findEmployeeByNameQuery();
+
+    EmployeeResponse paginationThroughCriteria(String name,Integer pageNumber,Integer pageSize,String sortBy,String sortDir);
 
     }

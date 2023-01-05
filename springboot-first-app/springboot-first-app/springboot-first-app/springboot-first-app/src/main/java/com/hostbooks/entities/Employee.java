@@ -16,6 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@NamedQuery(
+        name="findByFirstName",
+        query="from Employee as e where e.firstName=:name"
+)
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
