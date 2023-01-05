@@ -252,6 +252,41 @@ export class EmployeeListComponent implements OnInit{
     }
   }
 
+   buttonD="sort";
+  sortByDesignation(){
+
+    this.buttonMN="sort";
+    this.employees.sort((a:any,b:any)=>{
+      if(a.designation.grade>b.designation.grade){
+        return 1;
+
+      }else{
+        return -1;
+      }
+    })
+   // this.sortBy="mobileNumber";
+    if(this.flag==true){
+      this.buttonD="desc";
+     // this.sortDir="asc";
+      this.flag=false;
+     // this.getEmployeeByPagination();
+
+    }else{
+      this.buttonD="asc";
+     // this.sortDir="desc";
+      this.flag=true;
+      //this.getEmployeeByPagination();
+      this.employees.sort((a:any,b:any)=>{
+        if(a.designation.grade>b.designation.grade){
+          return -1;
+  
+        }else{
+          return 1;
+        }
+      })
+    }
+
+  }
   getValue(data:any){
     this.name=data;
     this.pageNumber=0;

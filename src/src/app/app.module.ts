@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import{FormsModule} from '@angular/forms';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
@@ -16,6 +16,9 @@ import { CreateDesignationComponent } from './create-designation/create-designat
 import { DesignationListComponent } from './designation-list/designation-list.component';
 import { UpdateDesignationComponent } from './update-designation/update-designation.component'
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptorInterceptor } from './auth-interceptor.interceptor';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UpdateAddressComponent,
     CreateDesignationComponent,
     DesignationListComponent,
-    UpdateDesignationComponent
+    UpdateDesignationComponent,
+    LoginComponent
     ],
   imports: [
     BrowserModule,
@@ -38,7 +42,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    LoginComponent,
+    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorInterceptor,multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

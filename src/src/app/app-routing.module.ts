@@ -10,11 +10,13 @@ import { UpdateAddressComponent } from './update-address/update-address.componen
 import { CreateDesignationComponent } from './create-designation/create-designation.component';
 import { DesignationListComponent } from './designation-list/designation-list.component';
 import { UpdateDesignationComponent } from './update-designation/update-designation.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  {path:'employees',component:EmployeeListComponent},
+  {path:'employees', canActivate:[AuthGuard],component:EmployeeListComponent},
   {path:'create-employee',component:CreateEmployeeComponent},
-  {path:'',redirectTo:'employees',pathMatch:'full'},
+  {path:'',redirectTo:'login',pathMatch:'full'},
   {path:'update-employee/:id',component:UpdateEmployeeComponent},
   {path:'employee-details/:id',component:EmployeeDetailsComponent},
  // {path:'create-address/:id',component:CreateAddressComponent},
@@ -22,7 +24,8 @@ const routes: Routes = [
   {path:'update-address/:addId/:empId',component:UpdateAddressComponent},
   {path:'create-designation/:empId',component:CreateDesignationComponent},
   {path:'designations',component:DesignationListComponent},
-  {path:'update-designation/:degId/:empId',component:UpdateDesignationComponent}
+  {path:'update-designation/:degId/:empId',component:UpdateDesignationComponent},
+  {path:'login',component:LoginComponent}
 ];
 
 @NgModule({

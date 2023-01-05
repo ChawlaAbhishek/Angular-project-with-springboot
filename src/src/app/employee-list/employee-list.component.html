@@ -24,7 +24,11 @@
                     <span class="glyphicon glyphicon-sort"></span>{{buttonMN}}
                 </button>
             </th>
-            <!-- <th>Designation Id</th> -->
+            <th>Designation
+                <button (click)="sortByDesignation()" type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-sort"></span>{{buttonD}}
+                </button>
+            </th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -34,7 +38,7 @@
             <td>{{employee.firstName}}</td>
             <td>{{employee.lastName}}</td>
             <td>{{employee.mobileNumber}}</td>
-            <!-- <td>{{employee.designation.degId}}</td> -->
+            <td>{{employee.designation.grade}}</td>
             <td>
                 <button (click)="updateEmployee(employee.empId)" class="btn btn-info">Update</button>
                 <button (click)="deleteEmployee(employee.empId)" class="btn btn-danger" style="margin-left: 10px;">Delete</button>
