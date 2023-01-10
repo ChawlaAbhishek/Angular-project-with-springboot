@@ -16,51 +16,67 @@ export class LoginComponent implements OnInit {
     
   }
 
-  constructor(private route:ActivatedRoute,private router:Router,private authService:AuthService){
+  constructor(private route:ActivatedRoute,private router:Router,private authService:AuthService){}
 
-  }
+   user: User =new User();
 
-   //user: User =new User();
-
-   username: any;
-   password : any;
+  //  username: any;
+  //  password : any;
   // errorMessage = 'Invalid Credentials';
   // successMessage?: string;
   // invalidLogin = false;
-   loginSuccess=false;
+   //loginSuccess=false;
    
  
   
 
-  handleLogin(){
-    //console.log(this.user.username)
+   handleLogin(){
+    console.log(this.user.username)
 
-    localStorage.setItem("username",this.username)
-    localStorage.setItem("password",this.password)
+    // localStorage.setItem("username",this.user.username)
+    // localStorage.setItem("password",this.user.password)
 
-    this.authService.authenticationService().subscribe(data=>{
-       this.loginSuccess=true;
-      console.log(this.loginSuccess)
+    // this.authService.authenticationService().subscribe(data=>{
+    //    this.loginSuccess=true;
+    //   console.log(this.loginSuccess)
 
-      console.log(data);
-       this.router.navigate(["employees/"])
+    //   console.log(data);
+    //    this.router.navigate(["employees/"])
       
 
-    },error=>console.log(error))
+    // },error=>console.log(error))
+    this.authService.authenticateService(this.user).subscribe((data:any)=>{
+      console.log(data.token);
+    //  this.loginSuccess=true;
+
+      localStorage.setItem("token",data.token);
+              this.router.navigate(["employees/"])
+
+    })
     
 
 
     //this.authInterceptor.sendToInterceptor(this.username,this.password);
     }
+
     
 
     isLoggedIn(){
-      console.log(this.loginSuccess);
+      // this.loginSuccess=false;
       
-      if(this.loginSuccess==false){
-        return true;
-      }else{
-        return false;
-      }
+      // console.log(this.loginSuccess);
+      
+      // if(this.loginSuccess){
+      //   return true;
+      // }else{
+      //   return false;
+      // }
+
+      if(localStorage.getItem("token")){
+      return true;
+    }else{
+      return false;
     }
+  }
+  
 }

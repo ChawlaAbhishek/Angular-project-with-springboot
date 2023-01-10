@@ -45,6 +45,7 @@ import { AuthGuard } from './auth.guard';
   providers: [
     AuthGuard,
     LoginComponent,
+    AuthInterceptorInterceptor,
     {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorInterceptor,multi:true}
   ],
   bootstrap: [AppComponent]

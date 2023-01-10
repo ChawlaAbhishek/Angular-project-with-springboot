@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,17 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Employee-Details';
 
-  constructor(private router:Router){}
+  constructor(private router:Router,private login:LoginComponent){}
+
+  
 
   logout(){
 
-    this.router.navigate(['login'])
+    // console.log(this.login.loginSuccess)
+    // this.login.loginSuccess=true;
+    localStorage.clear();
+
+    this.router.navigate(['login']);
 
   };
 

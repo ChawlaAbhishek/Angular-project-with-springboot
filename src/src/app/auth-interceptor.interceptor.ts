@@ -11,19 +11,19 @@ import { LoginComponent } from './login/login.component';
 
 @Injectable()
 export class AuthInterceptorInterceptor implements HttpInterceptor {
-
+ 
   // username:any;
   // password:any;
  // user:User=new User();
 
   constructor() {}
-  createBasicAuthToken() {
-   // console.log(this.login.user.username,"login")
-   let username=localStorage.getItem("username")
-   let password =localStorage.getItem("password")
-   //console.log(username,password)
-    return 'Basic ' + window.btoa(username + ":" + password);
-  }
+  // createBasicAuthToken() {
+  //  // console.log(this.login.user.username,"login")
+  //  let username=localStorage.getItem("username")
+  //  let password =localStorage.getItem("password")
+  //  //console.log(username,password)
+  //   return 'Basic ' + window.btoa(username + ":" + password);
+  // }
 
   // sendToInterceptor(username:string,password:string){
   //   this.username=username;
@@ -31,18 +31,31 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
 
   // }
 
+
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
 
-    let reqUrl:String = request.url;
+    
 
-    if(!request.headers.has('authorization')){
-      request=request.clone({headers:request.headers.set('authorization',this.createBasicAuthToken())});
+    // if(!request.headers.has('authorization')){
+    //   request=request.clone({headers:request.headers.set('authorization',this.createBasicAuthToken())});
 
-    }
+    // }
 
     //  console.log(request,"request")
+    const token :string | null =localStorage.getItem("token");
+    if (!token) {
+      return next.handle(request) ;
+    }
+
+      
+      return next.handle(request.clone(
+        {
+          headers:request.headers.set("authorization",token)
+        }
+
+      ));
+    }
     
-    return next.handle(request);
-  }
+    
 }
